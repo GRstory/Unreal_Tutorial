@@ -1,15 +1,11 @@
-// Copyright Epic Games, Inc. All Rights Reserved.
+﻿// Copyright Epic Games, Inc. All Rights Reserved.
 
 #include "UnrealTutorialGameMode.h"
 #include "UnrealTutorialCharacter.h"
+#include "Character/Player/UTCharacterPlayer.h"
 #include "UObject/ConstructorHelpers.h"
 
 AUnrealTutorialGameMode::AUnrealTutorialGameMode()
 {
-	// set default pawn class to our Blueprinted character
-	static ConstructorHelpers::FClassFinder<APawn> PlayerPawnBPClass(TEXT("/Game/ThirdPerson/Blueprints/BP_ThirdPersonCharacter"));
-	if (PlayerPawnBPClass.Class != NULL)
-	{
-		DefaultPawnClass = PlayerPawnBPClass.Class;
-	}
+	DefaultPawnClass = AUTCharacterPlayer::StaticClass();
 }

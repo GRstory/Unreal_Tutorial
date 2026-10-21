@@ -1,0 +1,5 @@
+root = true
+
+# 한글 주석이 깨지지 않도록 소스 파일을 UTF-8(BOM)으로 저장
+[*.{h,hpp,cpp,c,inl,cs}]
+charset = utf-8-bom
