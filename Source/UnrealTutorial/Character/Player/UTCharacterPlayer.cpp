@@ -39,11 +39,16 @@ AUTCharacterPlayer::AUTCharacterPlayer()
 		TPSMoveAction = InputActionMoveRef.Object;
 	}
 
-
 	static ConstructorHelpers::FObjectFinder<UInputAction> InputActionLookRef(TEXT("/Script/EnhancedInput.InputAction'/Game/Input/Actions/IA_TPSLook.IA_TPSLook'"));
 	if (nullptr != InputActionLookRef.Object)
 	{
 		TPSLookAction = InputActionLookRef.Object;
+	}
+
+	static ConstructorHelpers::FObjectFinder<UInputAction> AttackActionRef(TEXT("/Script/EnhancedInput.InputAction'/Game/Input/Actions/IA_DefaultAttack.IA_DefaultAttack'"));
+	if (nullptr != AttackActionRef.Object)
+	{
+		AttackAction = AttackActionRef.Object;
 	}
 }
 
@@ -71,6 +76,7 @@ void AUTCharacterPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputC
 	EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Completed, this, &ACharacter::StopJumping);
 	EnhancedInputComponent->BindAction(TPSMoveAction, ETriggerEvent::Triggered, this, &AUTCharacterPlayer::TPSMove);
 	EnhancedInputComponent->BindAction(TPSLookAction, ETriggerEvent::Triggered, this, &AUTCharacterPlayer::TPSLook);
+	EnhancedInputComponent->BindAction(AttackAction, ETriggerEvent::Triggered, this, &AUTCharacterPlayer::DoDefaultAttack);
 }
 
 void AUTCharacterPlayer::SetCharacterControlData(const UUTCharacterControlData* ControlData)

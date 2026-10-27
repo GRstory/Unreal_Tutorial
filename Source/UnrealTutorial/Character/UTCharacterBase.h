@@ -27,4 +27,14 @@ protected: //Components
 
 	UPROPERTY()
 	TMap<ECharacterControlType, class UUTCharacterControlData*> ControlDataMap;
+
+protected:
+	bool PlayActionMontage(UAnimMontage* Montage, FOnMontageEnded& Delegate);
+	virtual void DoDefaultAttack();
+	virtual void OnDefaultAttackMontageEnded(UAnimMontage* Montage, bool bInterrupted);
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Animation")
+	TObjectPtr<class UAnimMontage> DefaultAttackMontage;
+
+	uint8 bIsAttacking = 0;
 };

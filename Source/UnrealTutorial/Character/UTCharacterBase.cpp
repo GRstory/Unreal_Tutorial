@@ -68,3 +68,44 @@ void AUTCharacterBase::SetCharacterControlData(const UUTCharacterControlData* Co
     CharacterMovementComponent->RotationRate = ControlData->RotationRate;
 
 }
+
+bool AUTCharacterBase::PlayActionMontage(UAnimMontage* Montage, FOnMontageEnded& Delegate)
+{
+    if (Montage == nullptr)
+    {
+        return false;
+    }
+
+    UAnimInstance* AnimInstance = GetMesh()->GetAnimInstance();
+    if (AnimInstance)
+    {
+        if (AnimInstance->Montage_Play(Montage))
+        {
+            AnimInstance->Montage_SetEndDelegate(Delegate, Montage);
+
+            return true;
+        }
+    }
+
+    return false;
+}
+
+void AUTCharacterBase::DoDefaultAttack()
+{
+    if (bIsAttacking || !DefaultAttackMontage)
+    {
+        return;
+    }
+    
+    FOnMontageEnded MontageEndDelegate;
+    MontageEndDelegate.BindUObject(this, &AUTCharacterBase::OnDefaultAttackMontageEnded);
+    if (PlayActionMontage(DefaultAttackMontage, MontageEndDelegate))
+    {
+        bIsAttacking = true;
+    }
+}
+
+void AUTCharacterBase::OnDefaultAttackMontageEnded(UAnimMontage* Montage, bool bInterrupted)
+{
+    bIsAttacking = false;
+}
